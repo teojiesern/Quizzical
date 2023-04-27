@@ -1,0 +1,47 @@
+body{
+  margin: 0;
+  font-family: 'Karla', sans-serif;
+}
+
+.landing-page{
+  margin: 0;
+  height: 100vh;
+  background-color: #F5F7FB;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title{
+  margin: 0;
+  font-size: 8vw;
+}
+
+.description{
+  font-size: 2vw;
+  margin-top: 0;
+}
+
+.start-btn{
+  background-color: #4D5B9E;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 20px;
+  letter-spacing: 2px;
+  font-weight: 500px;
+  font-size: 1.5vw;
+}
+
+.upperBlob{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.lowerBlob{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
