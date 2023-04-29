@@ -65,7 +65,7 @@ body{
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 60%;
+  width: 80%;
   border-bottom: 1px solid grey;
   margin-bottom: 3vh;
 }
@@ -79,15 +79,26 @@ body{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 95%;
+  max-height: 90vh;
   padding: 3vh;
 }
 
-.checkAns-btn{
+.check_and_play{
   color: white;
   background-color: #4D5B9E;
   border: none;
   border-radius: 10px;
   padding: 10px 20px;
   cursor: pointer;
+}
+
+.end{
+  display: flex;
+  width: 50%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.score{
+  font-size: 25px;
 }

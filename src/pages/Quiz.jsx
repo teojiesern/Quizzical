@@ -1,44 +1,13 @@
 import React from "react";
 import uuid from 'react-uuid';
 
-export default function Quiz(){
-    const [quiz, setQuiz] = React.useState([])
-    const [choice, setChoice] = React.useState([4,4,4,4,4])
+export default function Quiz(props){
+    let quiz = props.dataset
+    const [choice, setChoice] = React.useState(Array(quiz.length).fill(''))
     const [checked, setChecked] = React.useState(false)
-
-    React.useEffect(() => {
-        fetch("https://opentdb.com/api.php?amount=5&category=21&difficulty=easy&type=multiple")
-        .then(res => res.json())
-        .then(data => setQuiz(
-            data.results.map((q, index) => {
-                let answers = q.incorrect_answers
-                answers.push(q.correct_answer)
-                shuffle(answers)
-                
-                return {
-                    id:uuid(),
-                    questionNumber: index,
-                    listOfAnswers: answers,
-                    question: q.question,
-                    correct_answer: q.correct_answer
-                }
-            })
-        ))
-
-        function shuffle(array) {
-            let currentIndex = array.length,  randomIndex;
-          
-            while (currentIndex != 0) {
-              randomIndex = Math.floor(Math.random() * currentIndex);
-              currentIndex--;
-          
-              [array[currentIndex], array[randomIndex]] = [
-                array[randomIndex], array[currentIndex]];
-            }
-          
-            return array;
-          }
-    },[])
+    const [correct, setCorrect] = React.useState({})
+    const [wrong, setWrong] = React.useState({})
+    const [score, setScore] = React.useState(0)
 
     function setSelected(questionNum, index){
         const temp = []
@@ -58,20 +27,26 @@ export default function Quiz(){
     let notSelectedStyle = {
         border: "1px solid #4D5B9E"
     }
-
-    let correct = {}
-
-    let wrong = {}
-
+    
     function checkAnswer(){
-        correct = {backgroundColor: "#94D7A2", border: "none"}
-        wrong = {backgroundColor: "#F8BCBC", border: "none"}
-        setChoice([4,4,4,4,4])
+        setCorrect({backgroundColor: "#94D7A2", border: "none"})
+        setWrong({backgroundColor: "#F8BCBC", border: "none"})
         setChecked(prevChecked => !prevChecked)
+        for(let i=0; i<answers.length; i++){
+            if(answers[i] === selections[i]){
+                setScore(prevScore => prevScore+1)
+            }
+        }
     }
 
+    let answers = []
+    let selections = Array(choice.length).fill('');
     const questions = quiz.map(q => {
+        answers.push(q.correct_answer)
         let ansSelections = q.listOfAnswers.map((ans, index) => {
+            if(choice[q.questionNumber] === index){
+                selections.splice(q.questionNumber, 1, ans)
+            }
             return (
                 <div 
                     key={uuid()} 
@@ -94,10 +69,24 @@ export default function Quiz(){
         )
     })
 
+    function restart(){
+        props.restart()
+        setChoice(Array(quiz.length).fill('')) 
+        setCorrect({})
+        setWrong({})
+        setScore(0)
+        setChecked(false)
+    }
+
     return (
         <div className="questionPage">
             {questions}
-            <button className="checkAns-btn" onClick={checkAnswer}>Check Answer</button>
+            {checked ? 
+            <div className="end">
+                <h1 className="score">You Scored {score}/{quiz.length} correct answers</h1>
+                <button className="check_and_play" onClick={restart}>Play Again</button>
+            </div> 
+            : <button className="check_and_play" onClick={checkAnswer}>Check Answer</button>}
         </div>
     )
 }
