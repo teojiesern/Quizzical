@@ -57,6 +57,7 @@ body{
 .answer{
   padding: 5px 20px;
   border-radius: 10px;
+  font-weight: 500px;
   cursor: pointer;
 }
 
@@ -88,4 +89,5 @@ body{
   border: none;
   border-radius: 10px;
   padding: 10px 20px;
+  cursor: pointer;
 }
